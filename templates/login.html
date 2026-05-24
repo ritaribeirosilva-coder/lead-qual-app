@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Sign in — Semapa Next{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+  <div class="card">
+    <h1 class="card-title">Semapa Next</h1>
+    <p class="card-subtitle">Lead Qualification</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="flash">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autofocus
+               placeholder="you@semapanext.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required
+               placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-primary">Sign in</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

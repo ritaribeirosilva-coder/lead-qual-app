@@ -1,0 +1,17 @@
+[
+  {
+    "email": "martim@semapanext.com",
+    "full_name": "Martim Perestrelo",
+    "password_hash": "pbkdf2:sha256:1000000$rulEeQFypyprDJwy$ae43ddaad95b35cc2b38a34725ad4c4cd584f345f8df57079754f607ebcfba9c"
+  },
+  {
+    "email": "assuncao@semapanext.com",
+    "full_name": "Assunção Magalhães",
+    "password_hash": "pbkdf2:sha256:1000000$t9TcDq1Ph1zBxDPz$984501f316acbb860d9091fe17691c8d3d3ed80fed47cd6d1bfd774c3991aa50"
+  },
+  {
+    "email": "lasse@semapanext.com",
+    "full_name": "Lasse Husby",
+    "password_hash": "pbkdf2:sha256:1000000$W6DlqVmYJQzO1LGZ$d9484e6e45dfc17dc008c8ac60113e38c34d89db3353908b9d3146124a9aedf2"
+  }
+]

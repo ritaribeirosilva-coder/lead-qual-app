@@ -1,0 +1,48 @@
+{
+  "column_mappings": {
+    "PitchBook": {
+      "name": "Companies",
+      "website": "Website",
+      "description": "Description",
+      "investmentStage": "Last Financing Deal Type",
+      "country": "HQ Location"
+    },
+    "Sifted": {
+      "name": "Startup Name",
+      "website": "Website",
+      "country": "HQ Country",
+      "dealSize": "Deal size (full, €)",
+      "roundDisclosed": "Round (if disclosed)",
+      "siftedStage": "Stage",
+      "sector": "Sector"
+    }
+  },
+  "country_aliases": {
+    "uk": "United Kingdom", "u.k.": "United Kingdom", "gb": "United Kingdom",
+    "great britain": "United Kingdom", "england": "United Kingdom",
+    "scotland": "United Kingdom", "wales": "United Kingdom",
+    "us": "United States", "usa": "United States", "u.s.": "United States",
+    "u.s.a.": "United States", "america": "United States",
+    "czech republic": "Czechia"
+  },
+  "prio_geo": ["Germany", "Austria", "Switzerland", "United Kingdom", "Portugal", "Spain", "Belgium", "Netherlands", "Luxembourg"],
+  "second_prio_geo": ["France", "Estonia", "Latvia", "Lithuania", "Greece", "Denmark", "Sweden", "Italy", "Finland", "Ireland", "Norway", "Iceland", "Czechia", "Romania", "Poland", "Slovakia", "Hungary", "Serbia", "Ukraine", "Croatia", "Bulgaria", "Cyprus", "United States"],
+  "right_stages": ["Pre-seed", "Seed", "Early Stage VC", "Seed Round", "Accelerator/Incubator", "Accelerator", "Early"],
+  "round_size_thresholds": {"pre_seed_max": 1000000, "seed_max": 12000000},
+  "owner_map": {
+    "germany": "Martim Perestrelo", "austria": "Martim Perestrelo",
+    "switzerland": "Martim Perestrelo", "portugal": "Martim Perestrelo",
+    "spain": "Martim Perestrelo", "united kingdom": "Assunção Magalhães",
+    "belgium": "Assunção Magalhães", "netherlands": "Assunção Magalhães",
+    "luxembourg": "Assunção Magalhães", "france": "Lasse Husby",
+    "estonia": "Lasse Husby", "latvia": "Lasse Husby", "lithuania": "Lasse Husby",
+    "greece": "Lasse Husby", "denmark": "Lasse Husby", "sweden": "Lasse Husby",
+    "italy": "Lasse Husby", "finland": "Lasse Husby", "ireland": "Lasse Husby",
+    "norway": "Lasse Husby", "iceland": "Lasse Husby", "czechia": "Lasse Husby",
+    "romania": "Lasse Husby", "poland": "Lasse Husby", "slovakia": "Lasse Husby",
+    "hungary": "Lasse Husby", "serbia": "Lasse Husby", "ukraine": "Lasse Husby",
+    "croatia": "Lasse Husby", "bulgaria": "Lasse Husby", "cyprus": "Lasse Husby",
+    "united states": "Lasse Husby"
+  },
+  "portfolio": []
+}

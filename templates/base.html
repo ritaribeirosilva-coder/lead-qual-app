@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Semapa Next — Lead Qualification{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+{% if current_user.is_authenticated %}
+<nav class="nav">
+  <span class="nav-brand">Semapa Next</span>
+  <span class="nav-user">
+    {{ current_user.full_name }}
+    &nbsp;·&nbsp;
+    <a href="{{ url_for('auth.logout') }}">Sign out</a>
+  </span>
+</nav>
+{% endif %}
+
+<main>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="flash">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

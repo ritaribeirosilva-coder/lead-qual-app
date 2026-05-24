@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Upload Leads — Semapa Next{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <!-- Upload form -->
+  <div class="card upload-card">
+    <h2>Upload Leads</h2>
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="file">CSV File</label>
+          <input type="file" id="file" name="file" accept=".csv" required>
+        </div>
+        <div class="form-group">
+          <label for="source">Source</label>
+          <select id="source" name="source" required>
+            <option value="" disabled selected>Select source</option>
+            <option value="Sifted">Sifted</option>
+            <option value="PitchBook">PitchBook</option>
+          </select>
+        </div>
+        <div class="form-group form-group--submit">
+          <label>&nbsp;</label>
+          <button type="submit" class="btn-primary">Upload &amp; Process</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Results -->
+  {% if result %}
+  <div class="results">
+
+    <div class="summary-bar">
+      <strong>{{ result.row_count }}</strong> rows processed from
+      <strong>{{ result.source }}</strong>
+      &nbsp;·&nbsp;
+      {% if result.warnings %}
+        <span class="warn-count">⚠ {{ result.warnings | length }} warning{{ 's' if result.warnings | length != 1 }}</span>
+      {% else %}
+        <span class="ok-count">✓ No warnings</span>
+      {% endif %}
+      &nbsp;·&nbsp; Run ID: <code>{{ result.run_id[:8] }}…</code>
+    </div>
+
+    {% if result.warnings %}
+    <details class="warnings-block">
+      <summary>Show warnings</summary>
+      <ul>
+        {% for w in result.warnings %}
+          <li>{{ w }}</li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+
+    {% set leads = result.leads %}
+    {% set shown = leads[:50] %}
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Website</th>
+            <th>Country</th>
+            <th>Stage</th>
+            <th>Source</th>
+            <th>Deal Size</th>
+            <th>Round</th>
+            <th>Sifted Stage</th>
+            <th>Sector</th>
+            <th>Description</th>
+            <th>Uploaded By</th>
+            <th>Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lead in shown %}
+          <tr>
+            <td>{{ lead.name }}</td>
+            <td>{{ lead.website }}</td>
+            <td>{{ lead.country }}</td>
+            <td>{{ lead.investmentStage }}</td>
+            <td>{{ lead.source }}</td>
+            <td>{% if lead.dealSize %}{{ lead.dealSize | int }}{% endif %}</td>
+            <td>{{ lead.roundDisclosed }}</td>
+            <td>{{ lead.siftedStage }}</td>
+            <td>{{ lead.sector }}</td>
+            <td class="td-desc">{{ lead.description[:80] }}{% if lead.description | length > 80 %}…{% endif %}</td>
+            <td>{{ lead.uploadedBy }}</td>
+            <td>{{ lead.dateAdded }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if leads | length > 50 %}
+    <p class="truncate-note">Showing first 50 of {{ leads | length }} rows.</p>
+    {% endif %}
+
+    <div class="actions-bar">
+      <button class="btn-primary" disabled title="Coming in Step 3">
+        Process these leads →
+      </button>
+      <span class="actions-note">Qualification pipeline coming next.</span>
+    </div>
+
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
