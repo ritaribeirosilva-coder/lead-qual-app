@@ -34,8 +34,9 @@
   <div class="results">
 
     <div class="summary-bar">
-      <strong>{{ result.row_count }}</strong> rows processed from
-      <strong>{{ result.source }}</strong>
+      <strong>{{ result.row_count }}</strong> rows
+      &nbsp;·&nbsp; <strong>{{ result.qualifiable_count }}</strong> qualifiable
+      &nbsp;·&nbsp; <strong>{{ result.no_fit_count }}</strong> no fit
       &nbsp;·&nbsp;
       {% if result.warnings %}
         <span class="warn-count">⚠ {{ result.warnings | length }} warning{{ 's' if result.warnings | length != 1 }}</span>
@@ -63,35 +64,45 @@
       <table>
         <thead>
           <tr>
+            <th>Status</th>
             <th>Name</th>
-            <th>Website</th>
             <th>Country</th>
             <th>Stage</th>
+            <th>Theme</th>
+            <th>Owner</th>
+            <th>Why Us</th>
+            <th>Justification</th>
             <th>Source</th>
+            <th>Website</th>
             <th>Deal Size</th>
-            <th>Round</th>
-            <th>Sifted Stage</th>
             <th>Sector</th>
             <th>Description</th>
-            <th>Uploaded By</th>
-            <th>Date Added</th>
           </tr>
         </thead>
         <tbody>
           {% for lead in shown %}
+          {% set status = lead.status or '' %}
           <tr>
-            <td>{{ lead.name }}</td>
-            <td>{{ lead.website }}</td>
+            <td>
+              {% if status == 'High priority' %}<span class="badge badge-hp">{{ status }}</span>
+              {% elif status == 'High fit' %}<span class="badge badge-hf">{{ status }}</span>
+              {% elif status == 'Moderate fit' %}<span class="badge badge-mf">{{ status }}</span>
+              {% elif status == 'Low fit' %}<span class="badge badge-lf">{{ status }}</span>
+              {% elif status == 'No fit' %}<span class="badge badge-nf">{{ status }}</span>
+              {% else %}<span class="badge">{{ status }}</span>{% endif %}
+            </td>
+            <td><strong>{{ lead.name }}</strong></td>
             <td>{{ lead.country }}</td>
             <td>{{ lead.investmentStage }}</td>
+            <td>{{ lead.investmentTheme }}</td>
+            <td>{{ lead.owner or '—' }}</td>
+            <td class="td-desc">{{ lead.whyUs }}</td>
+            <td class="td-desc">{{ lead.themeJustification }}</td>
             <td>{{ lead.source }}</td>
+            <td>{{ lead.website }}</td>
             <td>{% if lead.dealSize %}{{ lead.dealSize | int }}{% endif %}</td>
-            <td>{{ lead.roundDisclosed }}</td>
-            <td>{{ lead.siftedStage }}</td>
             <td>{{ lead.sector }}</td>
             <td class="td-desc">{{ lead.description[:80] }}{% if lead.description | length > 80 %}…{% endif %}</td>
-            <td>{{ lead.uploadedBy }}</td>
-            <td>{{ lead.dateAdded }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -103,10 +114,10 @@
     {% endif %}
 
     <div class="actions-bar">
-      <button class="btn-primary" disabled title="Coming in Step 3">
-        Process these leads →
-      </button>
-      <span class="actions-note">Qualification pipeline coming next.</span>
+      <form method="POST" action="{{ url_for('process') }}">
+        <button type="submit" class="btn-primary">Push to Affinity →</button>
+      </form>
+      <span class="actions-note">Affinity push coming in Step 7.</span>
     </div>
 
   </div>

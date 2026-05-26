@@ -11,10 +11,10 @@
       "name": "Startup Name",
       "website": "Website",
       "country": "HQ Country",
-      "dealSize": "Deal size (full, €)",
-      "roundDisclosed": "Round (if disclosed)",
+      "dealSize": "Deal Size EUR",
+      "roundDisclosed": "Round",
       "siftedStage": "Stage",
-      "sector": "Sector"
+      "sector": "Sector (s)"
     }
   },
   "country_aliases": {

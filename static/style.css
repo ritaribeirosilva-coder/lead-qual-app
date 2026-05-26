@@ -136,3 +136,18 @@ tr:nth-child(even) td { background: #f9fafb; }
 .actions-note  { font-size: 12px; color: #9ca3af; }
 
 code { font-size: 12px; background: #f3f4f6; padding: 2px 5px; border-radius: 3px; }
+
+/* ── Status badges ────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.badge-hp { background: #dcfce7; color: #166534; }
+.badge-hf { background: #d1fae5; color: #065f46; }
+.badge-mf { background: #fef9c3; color: #854d0e; }
+.badge-lf { background: #fef3c7; color: #92400e; }
+.badge-nf { background: #fee2e2; color: #991b1b; }
