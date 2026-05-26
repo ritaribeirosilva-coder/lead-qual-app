@@ -12,6 +12,8 @@
 <nav class="nav">
   <span class="nav-brand">Semapa Next</span>
   <span class="nav-user">
+    <a href="{{ url_for('logs') }}">History</a>
+    &nbsp;·&nbsp;
     {{ current_user.full_name }}
     &nbsp;·&nbsp;
     <a href="{{ url_for('auth.logout') }}">Sign out</a>

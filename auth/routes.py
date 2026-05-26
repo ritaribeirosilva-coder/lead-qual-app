@@ -52,11 +52,33 @@ class User(UserMixin):
 # ---------------------------------------------------------------------------
 
 def log_event(email, action, extra=''):
+    from datetime import timedelta
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     line = f"{timestamp} | {action} | {email} | {extra}\n"
+
+    # Append new entry
     with open(LOG_FILE, 'a', encoding='utf-8') as f:
         f.write(line)
+
+    # Prune entries older than 6 months
+    try:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=183)
+        with open(LOG_FILE, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        kept = []
+        for l in lines:
+            try:
+                ts = datetime.fromisoformat(l.split(' | ')[0].replace('Z', '+00:00'))
+                if ts >= cutoff:
+                    kept.append(l)
+            except Exception:
+                kept.append(l)  # keep unparseable lines
+        if len(kept) < len(lines):
+            with open(LOG_FILE, 'w', encoding='utf-8') as f:
+                f.writelines(kept)
+    except Exception:
+        pass  # never break the app over log maintenance
 
 
 # ---------------------------------------------------------------------------

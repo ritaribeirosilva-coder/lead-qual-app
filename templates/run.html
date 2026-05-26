@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Run {{ result.run_id[:8] }} — Semapa Next{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <div class="run-header">
+    <a href="{{ url_for('logs') }}" class="back-link">← Run history</a>
+    <h2 class="run-title">{{ result.filename or 'Run ' + result.run_id[:8] }}</h2>
+  </div>
+
+  <div class="results">
+    {% include '_results.html' %}
+  </div>
+
+</div>
+{% endblock %}

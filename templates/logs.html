@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Run History — Semapa Next{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <div class="card">
+    <div class="card-title">Run History</div>
+    <div class="card-subtitle">All processed uploads — stored for 6 months</div>
+
+    {% if runs %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Uploaded by</th>
+            <th>File</th>
+            <th>Source</th>
+            <th>Rows</th>
+            <th>Qualifiable</th>
+            <th>No fit</th>
+            <th>Warnings</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in runs %}
+          <tr>
+            <td style="white-space:nowrap">{{ run.timestamp[:16].replace('T',' ') }}</td>
+            <td>{{ run.uploaded_by or '—' }}</td>
+            <td>{{ run.filename or '—' }}</td>
+            <td>{{ run.source or '—' }}</td>
+            <td>{{ run.row_count }}</td>
+            <td>{{ run.qualifiable_count }}</td>
+            <td>{{ run.no_fit_count }}</td>
+            <td>
+              {% if run.warning_count %}
+                <span class="warn-count">⚠ {{ run.warning_count }}</span>
+              {% else %}
+                <span class="ok-count">✓</span>
+              {% endif %}
+            </td>
+            <td><a href="{{ url_for('view_run', run_id=run.run_id) }}">View →</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="color:#6b7280;font-size:13px;">No runs yet. Upload a CSV to get started.</p>
+    {% endif %}
+  </div>
+
+  <!-- Activity log -->
+  <div class="card">
+    <div class="card-title">Activity Log</div>
+    <div class="card-subtitle">Recent logins and uploads</div>
+
+    {% if log_lines %}
+    <div class="table-wrapper" style="max-height:400px">
+      <table>
+        <thead>
+          <tr><th>Timestamp</th><th>Action</th><th>User</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          {% for entry in log_lines %}
+          <tr>
+            <td style="white-space:nowrap">{{ entry.timestamp }}</td>
+            <td><span class="badge {% if entry.action == 'upload' %}badge-hf{% elif entry.action == 'login' %}badge-mf{% else %}badge{% endif %}">{{ entry.action }}</span></td>
+            <td>{{ entry.email }}</td>
+            <td style="color:#6b7280;font-size:12px">{{ entry.extra }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="color:#6b7280;font-size:13px;">No activity logged yet.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
