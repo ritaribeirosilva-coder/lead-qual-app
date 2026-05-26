@@ -21,6 +21,10 @@
             <option value="PitchBook">PitchBook</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="run_name">Run name <span style="color:#9ca3af;font-weight:400">(optional)</span></label>
+          <input type="text" id="run_name" name="run_name" placeholder="e.g. Sifted May 2026">
+        </div>
         <div class="form-group form-group--submit">
           <label>&nbsp;</label>
           <button type="submit" class="btn-primary">Upload &amp; Process</button>
@@ -35,10 +39,8 @@
     {% include '_results.html' %}
 
     <div class="actions-bar">
-      <form method="POST" action="{{ url_for('process') }}">
-        <button type="submit" class="btn-primary">Push to Affinity →</button>
-      </form>
-      <span class="actions-note">Affinity push coming in Step 7.</span>
+      <a href="{{ url_for('export_run', run_id=result.run_id) }}" class="btn-primary">Export CSVs ↓</a>
+      <span class="actions-note">Downloads a ZIP with 3 files: high fit · opportunistic · no fit</span>
     </div>
   </div>
   {% endif %}

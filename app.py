@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for, Response
 from flask_login import LoginManager, current_user, login_required
 
 load_dotenv()
@@ -40,15 +40,16 @@ def list_runs():
             with open(p, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             runs.append({
-                'run_id':           data.get('run_id', p.stem),
-                'timestamp':        data.get('timestamp', ''),
-                'uploaded_by':      data.get('uploaded_by', ''),
-                'filename':         data.get('filename', ''),
-                'source':           data.get('source', ''),
-                'row_count':        data.get('row_count', 0),
+                'run_id':            data.get('run_id', p.stem),
+                'timestamp':         data.get('timestamp', ''),
+                'uploaded_by':       data.get('uploaded_by', ''),
+                'run_name':          data.get('run_name', ''),
+                'filename':          data.get('filename', ''),
+                'source':            data.get('source', ''),
+                'row_count':         data.get('row_count', 0),
                 'qualifiable_count': data.get('qualifiable_count', 0),
-                'no_fit_count':     data.get('no_fit_count', 0),
-                'warning_count':    len(data.get('warnings', [])),
+                'no_fit_count':      data.get('no_fit_count', 0),
+                'warning_count':     len(data.get('warnings', [])),
             })
         except Exception:
             pass
@@ -114,8 +115,9 @@ def create_app():
         result = None
 
         if request.method == 'POST':
-            file = request.files.get('file')
-            source = request.form.get('source', '').strip()
+            file     = request.files.get('file')
+            source   = request.form.get('source', '').strip()
+            run_name = request.form.get('run_name', '').strip()
 
             # Validation
             if not file or file.filename == '':
@@ -168,6 +170,7 @@ def create_app():
 
             # Attach metadata for storage
             result['filename']  = file.filename
+            result['run_name']  = run_name or file.filename.replace('.csv', '')
             result['timestamp'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # Step 6: persist run
@@ -204,6 +207,23 @@ def create_app():
             flash('Run not found.')
             return redirect(url_for('logs'))
         return render_template('run.html', result=result)
+
+    @app.route('/export/<run_id>')
+    @login_required
+    def export_run(run_id):
+        result = load_run(run_id)
+        if result is None:
+            flash('Run not found.')
+            return redirect(url_for('logs'))
+        from pipeline.exporter import build_export_zip
+        zip_bytes = build_export_zip(result)
+        run_name  = result.get('run_name') or run_id[:8]
+        filename  = f"{run_name}_leads.zip"
+        return Response(
+            zip_bytes,
+            mimetype='application/zip',
+            headers={'Content-Disposition': f'attachment; filename="{filename}"'}
+        )
 
     return app
 

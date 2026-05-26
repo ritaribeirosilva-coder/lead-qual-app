@@ -11,6 +11,10 @@
 
   <div class="results">
     {% include '_results.html' %}
+    <div class="actions-bar">
+      <a href="{{ url_for('export_run', run_id=result.run_id) }}" class="btn-primary">Export CSVs ↓</a>
+      <span class="actions-note">Downloads a ZIP with 3 files: high fit · opportunistic · no fit</span>
+    </div>
   </div>
 
 </div>

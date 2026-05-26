@@ -14,13 +14,14 @@
         <thead>
           <tr>
             <th>Date</th>
+            <th>Run name</th>
             <th>Uploaded by</th>
-            <th>File</th>
             <th>Source</th>
             <th>Rows</th>
             <th>Qualifiable</th>
             <th>No fit</th>
             <th>Warnings</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -28,8 +29,8 @@
           {% for run in runs %}
           <tr>
             <td style="white-space:nowrap">{{ run.timestamp[:16].replace('T',' ') }}</td>
+            <td><strong>{{ run.run_name or run.filename or '—' }}</strong></td>
             <td>{{ run.uploaded_by or '—' }}</td>
-            <td>{{ run.filename or '—' }}</td>
             <td>{{ run.source or '—' }}</td>
             <td>{{ run.row_count }}</td>
             <td>{{ run.qualifiable_count }}</td>
@@ -42,6 +43,7 @@
               {% endif %}
             </td>
             <td><a href="{{ url_for('view_run', run_id=run.run_id) }}">View →</a></td>
+            <td><a href="{{ url_for('export_run', run_id=run.run_id) }}">Export ↓</a></td>
           </tr>
           {% endfor %}
         </tbody>
