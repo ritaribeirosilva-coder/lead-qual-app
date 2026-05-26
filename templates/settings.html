@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Settings — Semapa Next{% endblock %}
+
+{% block content %}
+<div class="page">
+
+<form method="POST" action="{{ url_for('settings') }}">
+
+  <!-- ── Priority Geographies ─────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Priority Geographies</div>
+    <div class="card-subtitle">One country per line, exactly as it appears in the CSV.</div>
+    <div class="form-row" style="align-items:flex-start">
+      <div class="form-group" style="flex:1">
+        <label>Priority 1</label>
+        <textarea name="prio_geo" class="settings-textarea" rows="10">{{ config.prio_geo | join('\n') }}</textarea>
+      </div>
+      <div class="form-group" style="flex:1">
+        <label>Priority 2</label>
+        <textarea name="second_prio_geo" class="settings-textarea" rows="10">{{ config.second_prio_geo | join('\n') }}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Investment Stages ────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Investment Stages</div>
+    <div class="card-subtitle">One stage per line. Leads not matching any of these are filtered out as No fit.</div>
+    <div class="form-group">
+      <textarea name="right_stages" class="settings-textarea" rows="8">{{ config.right_stages | join('\n') }}</textarea>
+    </div>
+  </div>
+
+  <!-- ── Owner Map ─────────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Owner Map</div>
+    <div class="card-subtitle">Country (lowercase) → team member assigned to that market.</div>
+    <table class="settings-table" id="owner-table">
+      <thead>
+        <tr><th>Country (lowercase)</th><th>Owner</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for country, owner in config.owner_map.items() %}
+        <tr>
+          <td><input type="text" name="owner_country" value="{{ country }}" class="settings-input"></td>
+          <td><input type="text" name="owner_name"    value="{{ owner }}"   class="settings-input"></td>
+          <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="button" class="btn-add-row" onclick="addRow('owner-table', ownerRowTemplate)">+ Add country</button>
+  </div>
+
+  <!-- ── Column Mappings ──────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Column Mappings</div>
+    <div class="card-subtitle">The exact column header names in your CSV exports. Update when the source changes its format.</div>
+
+    <div class="form-row" style="align-items:flex-start;gap:32px">
+      <div style="flex:1">
+        <p class="settings-source-label">Sifted</p>
+        {% set sifted = config.column_mappings.Sifted %}
+        {% set sifted_fields = [
+          ('name',           'Company name',     sifted.get('name', '')),
+          ('website',        'Website',          sifted.get('website', '')),
+          ('country',        'Country',          sifted.get('country', '')),
+          ('dealSize',       'Deal size',        sifted.get('dealSize', '')),
+          ('roundDisclosed', 'Round disclosed',  sifted.get('roundDisclosed', '')),
+          ('siftedStage',    'Stage',            sifted.get('siftedStage', '')),
+          ('sector',         'Sector',           sifted.get('sector', '')),
+        ] %}
+        {% for key, label, val in sifted_fields %}
+        <div class="form-group">
+          <label>{{ label }}</label>
+          <input type="text" name="sifted_{{ key }}" value="{{ val }}" class="settings-input">
+        </div>
+        {% endfor %}
+      </div>
+
+      <div style="flex:1">
+        <p class="settings-source-label">PitchBook</p>
+        {% set pb = config.column_mappings.PitchBook %}
+        {% set pb_fields = [
+          ('name',            'Company name',       pb.get('name', '')),
+          ('website',         'Website',            pb.get('website', '')),
+          ('description',     'Description',        pb.get('description', '')),
+          ('investmentStage', 'Investment stage',   pb.get('investmentStage', '')),
+          ('country',         'Country',            pb.get('country', '')),
+        ] %}
+        {% for key, label, val in pb_fields %}
+        <div class="form-group">
+          <label>{{ label }}</label>
+          <input type="text" name="pitchbook_{{ key }}" value="{{ val }}" class="settings-input">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Portfolio ─────────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Portfolio Companies</div>
+    <div class="card-subtitle">Used to generate the "Why Us" sentence. Theme must match exactly: industrial tech · energy transition · supply chain and logistics · vertical software · opportunistic.</div>
+    <table class="settings-table" id="portfolio-table">
+      <thead>
+        <tr><th>Company</th><th>Theme fit</th><th>City</th><th>Country</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for p in config.portfolio %}
+        <tr>
+          <td><input type="text" name="portfolio_company" value="{{ p.company }}"  class="settings-input"></td>
+          <td><input type="text" name="portfolio_theme"   value="{{ p.themeFit }}" class="settings-input"></td>
+          <td><input type="text" name="portfolio_city"    value="{{ p.get('city','') }}" class="settings-input"></td>
+          <td><input type="text" name="portfolio_country" value="{{ p.country }}"  class="settings-input"></td>
+          <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="button" class="btn-add-row" onclick="addRow('portfolio-table', portfolioRowTemplate)">+ Add company</button>
+  </div>
+
+  <!-- ── Save ──────────────────────────────────────────────── -->
+  <div style="padding-bottom:32px">
+    <button type="submit" class="btn-primary">Save settings</button>
+  </div>
+
+</form>
+</div>
+
+<script>
+  function removeRow(btn) {
+    btn.closest('tr').remove();
+  }
+
+  function addRow(tableId, templateFn) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    const tr = document.createElement('tr');
+    tr.innerHTML = templateFn();
+    tbody.appendChild(tr);
+    tr.querySelector('input')?.focus();
+  }
+
+  function ownerRowTemplate() {
+    return `
+      <td><input type="text" name="owner_country" class="settings-input" placeholder="e.g. germany"></td>
+      <td><input type="text" name="owner_name"    class="settings-input" placeholder="Full name"></td>
+      <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>`;
+  }
+
+  function portfolioRowTemplate() {
+    return `
+      <td><input type="text" name="portfolio_company" class="settings-input" placeholder="Company name"></td>
+      <td><input type="text" name="portfolio_theme"   class="settings-input" placeholder="e.g. energy transition"></td>
+      <td><input type="text" name="portfolio_city"    class="settings-input" placeholder="City"></td>
+      <td><input type="text" name="portfolio_country" class="settings-input" placeholder="Country"></td>
+      <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>`;
+  }
+</script>
+{% endblock %}

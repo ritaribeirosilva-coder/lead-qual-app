@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, request, url_for, Response
+from flask import Flask, current_app, flash, redirect, render_template, request, url_for, Response
 from flask_login import LoginManager, current_user, login_required
 
 load_dotenv()
@@ -207,6 +207,70 @@ def create_app():
             flash('Run not found.')
             return redirect(url_for('logs'))
         return render_template('run.html', result=result)
+
+    @app.route('/settings', methods=['GET', 'POST'])
+    @login_required
+    def settings():
+        config = current_app.config['LEAD_CONFIG']
+
+        if request.method == 'POST':
+            # Geo lists (one per line)
+            config['prio_geo'] = [
+                l.strip() for l in request.form.get('prio_geo', '').splitlines() if l.strip()
+            ]
+            config['second_prio_geo'] = [
+                l.strip() for l in request.form.get('second_prio_geo', '').splitlines() if l.strip()
+            ]
+
+            # Investment stages (one per line)
+            config['right_stages'] = [
+                l.strip() for l in request.form.get('right_stages', '').splitlines() if l.strip()
+            ]
+
+            # Owner map (parallel lists)
+            countries = request.form.getlist('owner_country')
+            names     = request.form.getlist('owner_name')
+            config['owner_map'] = {
+                c.strip().lower(): n.strip()
+                for c, n in zip(countries, names)
+                if c.strip() and n.strip()
+            }
+
+            # Column mappings — Sifted
+            for field in ['name', 'website', 'country', 'dealSize', 'roundDisclosed', 'siftedStage', 'sector']:
+                val = request.form.get(f'sifted_{field}', '').strip()
+                if val:
+                    config['column_mappings']['Sifted'][field] = val
+
+            # Column mappings — PitchBook
+            for field in ['name', 'website', 'description', 'investmentStage', 'country']:
+                val = request.form.get(f'pitchbook_{field}', '').strip()
+                if val:
+                    config['column_mappings']['PitchBook'][field] = val
+
+            # Portfolio (parallel lists)
+            p_companies = request.form.getlist('portfolio_company')
+            p_themes    = request.form.getlist('portfolio_theme')
+            p_cities    = request.form.getlist('portfolio_city')
+            p_countries = request.form.getlist('portfolio_country')
+            config['portfolio'] = [
+                {'company': co.strip(), 'themeFit': th.strip(),
+                 'city': ci.strip(), 'country': pc.strip()}
+                for co, th, ci, pc in zip(p_companies, p_themes, p_cities, p_countries)
+                if co.strip()
+            ]
+
+            # Persist to disk and reload in app
+            with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+                json.dump(config, f, indent=2, ensure_ascii=False)
+            current_app.config['LEAD_CONFIG'] = config
+
+            from auth.routes import log_event
+            log_event(current_user.email, 'settings', 'config updated')
+            flash('Settings saved.')
+            return redirect(url_for('settings'))
+
+        return render_template('settings.html', config=config)
 
     @app.route('/export/<run_id>')
     @login_required
