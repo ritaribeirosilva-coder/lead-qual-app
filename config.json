@@ -18,31 +18,187 @@
     }
   },
   "country_aliases": {
-    "uk": "United Kingdom", "u.k.": "United Kingdom", "gb": "United Kingdom",
-    "great britain": "United Kingdom", "england": "United Kingdom",
-    "scotland": "United Kingdom", "wales": "United Kingdom",
-    "us": "United States", "usa": "United States", "u.s.": "United States",
-    "u.s.a.": "United States", "america": "United States",
+    "uk": "United Kingdom",
+    "u.k.": "United Kingdom",
+    "gb": "United Kingdom",
+    "great britain": "United Kingdom",
+    "england": "United Kingdom",
+    "scotland": "United Kingdom",
+    "wales": "United Kingdom",
+    "us": "United States",
+    "usa": "United States",
+    "u.s.": "United States",
+    "u.s.a.": "United States",
+    "america": "United States",
     "czech republic": "Czechia"
   },
-  "prio_geo": ["Germany", "Austria", "Switzerland", "United Kingdom", "Portugal", "Spain", "Belgium", "Netherlands", "Luxembourg"],
-  "second_prio_geo": ["France", "Estonia", "Latvia", "Lithuania", "Greece", "Denmark", "Sweden", "Italy", "Finland", "Ireland", "Norway", "Iceland", "Czechia", "Romania", "Poland", "Slovakia", "Hungary", "Serbia", "Ukraine", "Croatia", "Bulgaria", "Cyprus", "United States"],
-  "right_stages": ["Pre-seed", "Seed", "Early Stage VC", "Seed Round", "Accelerator/Incubator", "Accelerator", "Early"],
-  "round_size_thresholds": {"pre_seed_max": 1000000, "seed_max": 12000000},
+  "prio_geo": [
+    "Germany",
+    "Austria",
+    "Switzerland",
+    "United Kingdom",
+    "Portugal",
+    "Spain",
+    "Belgium",
+    "Netherlands",
+    "Luxembourg"
+  ],
+  "second_prio_geo": [
+    "France",
+    "Estonia",
+    "Latvia",
+    "Lithuania",
+    "Greece",
+    "Denmark",
+    "Sweden",
+    "Italy",
+    "Finland",
+    "Ireland",
+    "Norway",
+    "Iceland",
+    "Czechia",
+    "Romania",
+    "Poland",
+    "Slovakia",
+    "Hungary",
+    "Serbia",
+    "Ukraine",
+    "Croatia",
+    "Bulgaria",
+    "Cyprus",
+    "United States"
+  ],
+  "right_stages": [
+    "Pre-seed",
+    "Seed",
+    "Early Stage VC",
+    "Seed Round",
+    "Accelerator/Incubator",
+    "Accelerator",
+    "Early"
+  ],
+  "round_size_thresholds": {
+    "pre_seed_max": 1000000,
+    "seed_max": 12000000
+  },
   "owner_map": {
-    "germany": "Martim Perestrelo", "austria": "Martim Perestrelo",
-    "switzerland": "Martim Perestrelo", "portugal": "Martim Perestrelo",
-    "spain": "Martim Perestrelo", "united kingdom": "Assunção Magalhães",
-    "belgium": "Assunção Magalhães", "netherlands": "Assunção Magalhães",
-    "luxembourg": "Assunção Magalhães", "france": "Lasse Husby",
-    "estonia": "Lasse Husby", "latvia": "Lasse Husby", "lithuania": "Lasse Husby",
-    "greece": "Lasse Husby", "denmark": "Lasse Husby", "sweden": "Lasse Husby",
-    "italy": "Lasse Husby", "finland": "Lasse Husby", "ireland": "Lasse Husby",
-    "norway": "Lasse Husby", "iceland": "Lasse Husby", "czechia": "Lasse Husby",
-    "romania": "Lasse Husby", "poland": "Lasse Husby", "slovakia": "Lasse Husby",
-    "hungary": "Lasse Husby", "serbia": "Lasse Husby", "ukraine": "Lasse Husby",
-    "croatia": "Lasse Husby", "bulgaria": "Lasse Husby", "cyprus": "Lasse Husby",
+    "germany": "Martim Perestrelo",
+    "austria": "Martim Perestrelo",
+    "switzerland": "Martim Perestrelo",
+    "portugal": "Martim Perestrelo",
+    "spain": "Martim Perestrelo",
+    "united kingdom": "Assunção Magalhães",
+    "belgium": "Assunção Magalhães",
+    "netherlands": "Assunção Magalhães",
+    "luxembourg": "Assunção Magalhães",
+    "france": "Lasse Husby",
+    "estonia": "Lasse Husby",
+    "latvia": "Lasse Husby",
+    "lithuania": "Lasse Husby",
+    "greece": "Lasse Husby",
+    "denmark": "Lasse Husby",
+    "sweden": "Lasse Husby",
+    "italy": "Lasse Husby",
+    "finland": "Lasse Husby",
+    "ireland": "Lasse Husby",
+    "norway": "Lasse Husby",
+    "iceland": "Lasse Husby",
+    "czechia": "Lasse Husby",
+    "romania": "Lasse Husby",
+    "poland": "Lasse Husby",
+    "slovakia": "Lasse Husby",
+    "hungary": "Lasse Husby",
+    "serbia": "Lasse Husby",
+    "ukraine": "Lasse Husby",
+    "croatia": "Lasse Husby",
+    "bulgaria": "Lasse Husby",
+    "cyprus": "Lasse Husby",
     "united states": "Lasse Husby"
   },
-  "portfolio": []
+  "portfolio": [
+    {
+      "company": "Overstory",
+      "themeFit": "Energy Transition",
+      "city": "Amsterdam",
+      "country": "Netherlands"
+    },
+    {
+      "company": "Airly",
+      "themeFit": "Energy Transition",
+      "city": "Kraków",
+      "country": "Poland"
+    },
+    {
+      "company": "Constellr",
+      "themeFit": "Industrial Tech",
+      "city": "Freiburg",
+      "country": "Germany"
+    },
+    {
+      "company": "Gropyus",
+      "themeFit": "Industrial Tech",
+      "city": "Vienna",
+      "country": "Germany, Austria"
+    },
+    {
+      "company": "Carbon Re",
+      "themeFit": "Industrial Tech",
+      "city": "London",
+      "country": "United Kingdom"
+    },
+    {
+      "company": "Defined.ai",
+      "themeFit": "Opportunistic",
+      "city": "Lisbon",
+      "country": "Portugal"
+    },
+    {
+      "company": "Flecto",
+      "themeFit": "Opportunistic",
+      "city": "Aarhus",
+      "country": "Portugal"
+    },
+    {
+      "company": "Kencko",
+      "themeFit": "Opportunistic",
+      "city": "Lisbon",
+      "country": "Portugal"
+    },
+    {
+      "company": "Ferovinum",
+      "themeFit": "Supply Chain & Logistics",
+      "city": "London",
+      "country": "United Kingdom"
+    },
+    {
+      "company": "Sybilion",
+      "themeFit": "Supply Chain & Logistics",
+      "city": "Porto",
+      "country": "Portugal"
+    },
+    {
+      "company": "Circuit",
+      "themeFit": "Supply Chain & Logistics",
+      "city": "London",
+      "country": "United Kingdom"
+    },
+    {
+      "company": "Sonant AI",
+      "themeFit": "Vertical Software",
+      "city": "London",
+      "country": "United Kingdom"
+    },
+    {
+      "company": "Meisterwerk",
+      "themeFit": "Vertical Software",
+      "city": "Berlin",
+      "country": "Germany"
+    },
+    {
+      "company": "LOQR",
+      "themeFit": "Vertical Software",
+      "city": "Braga",
+      "country": "Portugal"
+    }
+  ]
 }
