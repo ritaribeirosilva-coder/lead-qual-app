@@ -131,8 +131,74 @@ td { padding: 8px 12px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
 tr:nth-child(even) td { background: #f9fafb; }
 .td-desc { max-width: 260px; }
 
-.truncate-note { font-size: 12px; color: #6b7280; margin-top: 8px; }
-.actions-bar   { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+/* ── Filters ──────────────────────────────────────────────── */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 0 8px;
+}
+.filter-input, .filter-select {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+  height: 32px;
+  width: auto;
+}
+.filter-input  { min-width: 180px; }
+.filter-select { min-width: 140px; }
+.filter-input:focus, .filter-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+.btn-reset {
+  padding: 5px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  color: #6b7280;
+  height: 32px;
+}
+.btn-reset:hover { background: #f3f4f6; }
+.filter-count { font-size: 12px; color: #6b7280; }
+
+/* ── Pagination ───────────────────────────────────────────── */
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.btn-page {
+  padding: 5px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn-page:hover:not(:disabled) { background: #f3f4f6; }
+.btn-page:disabled { opacity: .4; cursor: not-allowed; }
+.page-info { font-size: 13px; color: #374151; }
+
+/* ── Description expand ───────────────────────────────────── */
+.btn-expand {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 2px;
+  text-decoration: underline;
+}
+
+.actions-bar   { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
 .actions-note  { font-size: 12px; color: #9ca3af; }
 
 code { font-size: 12px; background: #f3f4f6; padding: 2px 5px; border-radius: 3px; }
